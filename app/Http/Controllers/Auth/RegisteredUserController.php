@@ -42,5 +42,13 @@ class RegisteredUserController extends Controller
             'user' => $user,
             'token' => $token
         ], 201);
+
+        Ticket::create([
+            'user_id'=> user->id,
+            'amout' => 3,
+            'type' => 'bonus',
+            'description' => 'Bonus tiket untuk pengguna baru',
+            'expires_at' => null,
+        ]);
     }
 }

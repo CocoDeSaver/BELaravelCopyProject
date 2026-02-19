@@ -19,9 +19,9 @@ class TicketSeeder extends Seeder
         foreach($users as $user){
             Ticket::create([
                 'user_id' => $user->id,
-                'amount' => 3,
+                'amount' => 1,
                 'type' => 'bonus',
-                'description' => 'Bonus tiket untuk pengguna baru',
+                'description' => 'Bonus tiket by admin',
                 'expires_at' => null,
             ]);
         }

@@ -21,5 +21,6 @@ class DatabaseSeeder extends Seeder
             'password' => 'password123',
         ]);
         $this->call(PersonalitySeeder::class);
+        $this->call(TicketSeeder::class);
     }
 }

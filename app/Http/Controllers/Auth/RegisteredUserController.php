@@ -32,6 +32,12 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->string('password')),
         ]);
 
+        $user->tickets()->create([
+            'amount' => 3,
+            'type' => 'grant',
+            'description' => 'New user registration bonus',
+        ]);
+
         event(new Registered($user));
 
         Auth::login($user);
@@ -42,13 +48,5 @@ class RegisteredUserController extends Controller
             'user' => $user,
             'token' => $token
         ], 201);
-
-        Ticket::create([
-            'user_id'=> user->id,
-            'amout' => 3,
-            'type' => 'bonus',
-            'description' => 'Bonus tiket untuk pengguna baru',
-            'expires_at' => null,
-        ]);
     }
 }

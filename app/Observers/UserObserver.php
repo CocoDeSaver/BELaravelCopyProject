@@ -5,7 +5,7 @@ namespace App\Observers;
 use App\Models\TicketTransaction;
 use App\Models\TicketWallet;
 use App\Models\User;
-use illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\DB;
 
 class UserObserver
 {

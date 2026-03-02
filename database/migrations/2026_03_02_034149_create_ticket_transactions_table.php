@@ -11,20 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tickets', function (Blueprint $table) {
+        Schema::create('ticket_transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->enum('type', ['purchase', 'consume', 'refund', 'grant']);
             $table->integer('amount');
-            $table->string('type', 50);
-            $table->unsignedBigInteger('reference_id')->nullable();
             $table->text('description')->nullable();
-            $table->timestamp('expires_at')->nullable();
             $table->timestamps();
 
-            // indexing untuk performa query
-            $table->index(['user_id']);
-            $table->index(['type']);
-            $table->index(['expires_at']);
+            $table->index('user_id');
         });
     }
 
@@ -33,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tickets');
+        Schema::dropIfExists('ticket_transactions');
     }
 };

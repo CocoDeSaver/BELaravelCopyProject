@@ -46,12 +46,28 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function ticketWallet()
+    {
+        return $this->hasOne(TicketWallet::class);
+    }
+    public function ticketSessions()
+    {
+        return $this->hasOne(TicketSession::class);
+    }
+    public function activeSession()
+    {
+        return $this->hasOne(TicketSession::class)->where('status', 'active');
+    }
+    public function ticketTransactions()
+    {
+        return $this->hasMany(TicketTransaction::class);
+    }
     public function chatSessions()
     {
         return $this->hasMany(ChatSession::class);
     }
-    public function tickets()
-    {
-        return $this->hasMany(Ticket::class);
-    }
+    // public function tickets()
+    // {
+    //     return $this->hasMany(Ticket::class);
+    // }
 }

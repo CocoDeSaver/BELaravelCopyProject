@@ -4,8 +4,10 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Ticket;
 use App\Models\User;
+use App\Models\TicketWallet;
+use App\Models\TicketTransaction;
+use Illuminate\Support\Facades\DB;
 
 class TicketSeeder extends Seeder
 {
@@ -17,13 +19,19 @@ class TicketSeeder extends Seeder
         $users = User::all();
 
         foreach($users as $user){
-            Ticket::create([
-                'user_id' => $user->id,
-                'amount' => 1,
-                'type' => 'bonus',
-                'description' => 'Bonus tiket by admin',
-                'expires_at' => null,
-            ]);
+            DB::transaction(function () use ($user) {
+                $wallet = TicketWallet::firstOrCreate(
+                    ['user_id' => $user->id],
+                    ['balance' => 0]
+                );
+                $wallet->increment('balance', 1);
+                TicketTransaction::create([
+                    'user_id' => $user->id,
+                    'type' => 'grant',
+                    'amount' => 1,
+                    'description' => 'Bonus tiket dari admin'
+                ]);
+            });
         }
     }
 }

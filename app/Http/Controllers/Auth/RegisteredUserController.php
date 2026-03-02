@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\TicketSession;
+use App\Models\TicketWallet;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -30,12 +32,6 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->string('password')),
-        ]);
-
-        $user->tickets()->create([
-            'amount' => 3,
-            'type' => 'grant',
-            'description' => 'New user registration bonus',
         ]);
 
         event(new Registered($user));

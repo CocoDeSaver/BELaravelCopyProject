@@ -11,15 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ticket_transactions', function (Blueprint $table) {
+        Schema::create('chat_wallets', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->enum('type', ['purchase', 'consume', 'refund', 'grant']);
-            $table->integer('amount');
-            $table->text('description')->nullable();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->integer('balance')->default(0);
             $table->timestamps();
 
-            $table->index('user_id');
+            $table->unique('user_id');
         });
     }
 
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ticket_transactions');
+        Schema::dropIfExists('chat_wallets');
     }
 };

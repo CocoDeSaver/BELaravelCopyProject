@@ -2,10 +2,9 @@
 
 namespace App\Observers;
 
-use App\Models\TicketTransaction;
-use App\Models\TicketWallet;
+use App\Models\ChatTransaction;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
+use App\Models\ChatWallet;
 
 class UserObserver
 {
@@ -14,20 +13,17 @@ class UserObserver
      */
     public function created(User $user): void
     {
-        DB::transaction(function () use ($user)
-            {
-                TicketWallet::create([
-                    'user_id' => $user->id,
-                    'balance' => 3,
-               ]);
+        ChatWallet::create([
+            'user_id' => $user->id,
+            'balance' => 20,
+        ]);
 
-               TicketTransaction::create([
-                    'user_id' => $user->id,
-                    'type' => 'grant',
-                    'amount' => 3,
-                    'description' => 'Bonus pengguna baru',
-               ]);
-        });
+        ChatTransaction::create([
+            'user_id' => $user->id,
+            'type' => 'credit',
+            'amount' => 20,
+            'description' => 'bonus user baru'
+        ]);
     }
 
     /**

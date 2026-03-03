@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ChatController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
@@ -15,7 +16,7 @@ Route::get('/personalities', function () {
 });
 
 Route::middleware(['auth:sanctum'])->group(function(){
-    Route::get('/tickets/balance', [TicketController::class, 'balance']);
+    Route::get('/chat/balance', [ChatController::class, 'balance']);
 });
 
 require __DIR__.'/auth.php';

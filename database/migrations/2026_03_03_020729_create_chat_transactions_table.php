@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ticket_wallets', function (Blueprint $table) {
+        Schema::create('chat_transactions', function (Blueprint $table) {
             $table->id();
-            $table->ForeignId('user_id')->constrained()->onDelete('cascade');
-            $table->integer('balance')->default(0);
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->enum('type', ['credit', 'debit']);
+            $table->integer('amount');
+            $table->string('description')->nullable();
             $table->timestamps();
-
-            $table->unique('user_id');
         });
     }
 
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ticket_wallets');
+        Schema::dropIfExists('chat_transactions');
     }
 };

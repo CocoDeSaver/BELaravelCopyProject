@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TicketTransaction extends Model
+class ChatTransaction extends Model
 {
     protected $fillable = [
         'user_id',

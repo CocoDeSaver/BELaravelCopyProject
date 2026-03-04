@@ -19,4 +19,6 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::get('/chat/balance', [ChatController::class, 'balance']);
 });
 
+Route::middleware(['auth:sanctum'])->post('/chat/send', [ChatController::class, 'send']);
+
 require __DIR__.'/auth.php';

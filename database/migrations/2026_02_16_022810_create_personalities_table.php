@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('personalities', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('slug')->unique();
             $table->json('personality_type');
             $table->json('specializatiion');
             $table->text('description');

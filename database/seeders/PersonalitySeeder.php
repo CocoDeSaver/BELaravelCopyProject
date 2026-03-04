@@ -15,6 +15,7 @@ class PersonalitySeeder extends Seeder
     {
         Personality::create([
             'name' => 'Bunda Sora',
+            'slug' => 'ibu',
             'personality_type' => [
                 'keibuan',
                 'lembut',
@@ -31,6 +32,7 @@ class PersonalitySeeder extends Seeder
         ]);
         Personality::create([
             'name' => 'Evelyn',
+            'slug' => 'teman',
             'personality_type' => [
                 'Supportive Best friend',
                 'Santai',
@@ -47,6 +49,7 @@ class PersonalitySeeder extends Seeder
         ]);
         Personality::create([
             'name' => 'Dr. Aria',
+            'slug' => 'psikolog',
             'personality_type' => [
                 'Professional',
                 'Empatik',

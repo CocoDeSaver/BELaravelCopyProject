@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class ChatSession extends Model
 {
+    protected $fillable = [
+        'user_id',
+        'personality_id',
+        'title'
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

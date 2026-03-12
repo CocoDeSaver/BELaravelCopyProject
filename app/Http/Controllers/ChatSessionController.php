@@ -26,7 +26,7 @@ class ChatSessionController extends Controller
     public function index()
     {
         $sessions = ChatSession::where('user_id', Auth::id())
-        ->latest()->get(['id', 'title', 'created_at']);
+        ->latest()->get(['id', 'personality_id', 'title', 'created_at']);
 
         return response()->json($sessions);
     }

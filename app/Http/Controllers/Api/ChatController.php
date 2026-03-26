@@ -40,6 +40,16 @@ class ChatController extends Controller
         $session = ChatSession::with('personality')
         ->where('id', $request->session_id)->where('user_id', Auth::id())->firstOrFail();
 
+        $history = $session->messages()
+        ->orderBy('created_at', 'asc')->take(8)->get(['role','message']);
+
+        $messages = $history->map(function ($msg) {
+            return [
+                "role" => $msg->role,
+                "content" => $msg->message
+            ];
+        })->values();
+
         ChatMessage::create([
             'session_id' => $session->id,
             'role' => 'user',
@@ -58,7 +68,8 @@ class ChatController extends Controller
 
         $response = Http::post(env('AI_SERVICE_URL') . '/chat', [
             'message' => $request->message,
-            'persona' => $session->personality->slug
+            'persona' => $session->personality->slug,
+            'history' => $messages
         ]);
 
         if (!$response->successful()) {
@@ -75,12 +86,13 @@ class ChatController extends Controller
             ], 500);
         }
 
-        $aiReply = $data['response'];
+        $aiReply = $data['reply'];
+        $alert = $data['alert'] ?? 'safe';
 
         ChatMessage::create([
             'session_id' => $session->id,
             'role' => 'assistant',
-            'message'=> $aiReply,
+            'message'=> $aiReply
         ]);
 
         DB::transaction(function () use ($wallet, $user){
@@ -94,6 +106,7 @@ class ChatController extends Controller
 
         return response()->json([
             'reply' => $aiReply,
+            'alert' => $alert,
             'remaining_balance' => $wallet->fresh()->balance
         ]);
     }
